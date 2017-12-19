@@ -17,7 +17,8 @@ Converting xls file to json files using nodejs
   node_xj({
     input: "sample.xls",  // input xls
     output: "output.json", // output json
-    sheet: "sheetname"  // specific sheetname
+    sheet: "sheetname",  // specific sheetname
+    field_name_row: 0     // 标题行开始，默认为 0
   }, function(err, result) {
     if(err) {
       console.error(err);
