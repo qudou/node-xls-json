@@ -20,7 +20,7 @@ function CV(config, callback) {
   var wb = this.load_xls(config.input)
   var ws = this.ws(wb, config.sheet);
   var csv = this.csv(ws)
-  this.cvjson(csv, config.output, callback)
+  this.cvjson(csv, config.output, config.field_name_row, callback)
 }
 
 CV.prototype.load_xls = function(input) {
@@ -36,7 +36,7 @@ CV.prototype.csv = function(ws) {
   return csv_file = xlsx.utils.make_csv(ws)
 }
 
-CV.prototype.cvjson = function(csv, output, callback) {
+CV.prototype.cvjson = function(csv, output, field_name_row = 0, callback) {
   var record = []
   var header = []
 
@@ -47,8 +47,9 @@ CV.prototype.cvjson = function(csv, output, callback) {
       return row;
     })
     .on('record', function(row, index){
-      
-      if(index === 0) {
+      if (index < field_name_row)
+          return;
+      if(index === field_name_row) {
         header = row;
       }else{
         var obj = {};
